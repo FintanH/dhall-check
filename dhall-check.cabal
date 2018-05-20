@@ -1,9 +1,11 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: b6f8372706dbe8bd6bc7fad7a826c479f41062728504491827cc620cacce7988
 
 name:           dhall-check
-version:        1.1.0.0
+version:        1.2.0.0
 synopsis:       Check all dhall files in a project
 category:       Development
 homepage:       https://github.com/anfelor/dhall-check#readme
@@ -20,17 +22,49 @@ source-repository head
   type: git
   location: https://github.com/anfelor/dhall-check
 
-executable dhall-check
-  main-is: Main.hs
+library
   hs-source-dirs:
       src
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , containers
+    , dhall >=1.14
     , directory
-    , dhall
+    , filepath
+    , optparse-generic
+    , text
+  exposed-modules:
+      Dhall.Check.File
+      Dhall.Check.Options
+  other-modules:
+      Paths_dhall_check
+  default-language: Haskell2010
+
+executable dhall-check
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  build-depends:
+      base >=4.7 && <5
+    , dhall-check
     , filepath
     , fsnotify
-    , trifecta
-    , text
+  other-modules:
+      Paths_dhall_check
+  default-language: Haskell2010
+
+test-suite hspec
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  build-depends:
+      base >=4.7 && <5
+    , dhall-check
+    , directory
+    , hspec
+    , temporary
+  other-modules:
+      Dhall.Check.FileSpec
+      Paths_dhall_check
   default-language: Haskell2010

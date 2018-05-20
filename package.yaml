@@ -1,7 +1,7 @@
 name: dhall-check
-version: 1.1.0.0
+version: 1.2.0.0
 synopsis: Check all dhall files in a project
-description: 
+description:
 github: anfelor/dhall-check
 homepage: https://github.com/anfelor/dhall-check#readme
 license: BSD3
@@ -13,15 +13,33 @@ category: Development
 
 dependencies:
   - base >= 4.7 && < 5
-  - containers 
-  - directory
-  - dhall
-  - filepath
-  - fsnotify
-  - trifecta
-  - text
+
+library:
+  source-dirs: src
+  dependencies:
+    - containers
+    - dhall >= 1.14
+    - directory
+    - filepath
+    - optparse-generic
+    - text
 
 executables:
   dhall-check:
-    source-dirs:      src
+    source-dirs:      app
     main:             Main.hs
+    dependencies:
+      - dhall-check
+      - filepath
+      - fsnotify
+
+tests:
+  hspec:
+    main: Spec.hs
+    source-dirs:
+      - test
+    dependencies:
+      - hspec
+      - dhall-check
+      - directory
+      - temporary
